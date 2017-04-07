@@ -15,9 +15,6 @@ TEMPLATE = app
 
 CONFIG += c++11
 
-
-#QMAKE_LFLAGS += -F/Library/Frameworks/
-
 INCLUDEPATH += -I $$PWD/pybind11/include \
            -I /usr/local/Cellar/python3/3.5.2_3/Frameworks/Python.framework/Versions/3.5/include/python3.5m
 
@@ -25,6 +22,7 @@ QMAKE_CFLAGS += -Wno-unused-result -Wsign-compare -Wunreachable-code -fno-common
 
 LIBS += -L/usr/local/Cellar/python3/3.5.2_3/Frameworks/Python.framework/Versions/3.5/lib/python3.5/config-3.5m -lpython3.5m -ldl -framework CoreFoundation
 
+DESTDIR = $$PWD/build
 
 SOURCES += main.cpp\
         mainwindow.cpp \
@@ -40,3 +38,8 @@ FORMS    += mainwindow.ui
 DISTFILES += \
     scripts/main.py \
     scripts/db.py
+
+QMAKE_POST_LINK += $$quote(mkdir -p $$DESTDIR/QNovel.app/Contents/Resources/scripts/$$escape_expand(\n\t))
+for(FILE,DISTFILES){
+    QMAKE_POST_LINK += $$quote(yes | cp $$PWD/$${FILE} $$DESTDIR/QNovel.app/Contents/Resources/scripts/$$escape_expand(\n\t))
+}
