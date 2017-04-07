@@ -1,13 +1,32 @@
 #ifndef GLOBALMANAGER_H
 #define GLOBALMANAGER_H
 
+
+#include <pybind11/pybind11.h>
+#include <pybind11/eval.h>
+#undef B0
+
+
 #include <QObject>
+#include <QString>
+#include <QListWidget>
+
+
+
+namespace py = pybind11;
+
 
 class GlobalManager : public QObject
 {
     Q_OBJECT
 public:
-    explicit GlobalManager(QObject *parent = 0);
+    static GlobalManager *instance();
+
+private:
+    static GlobalManager *_instance;
+    explicit GlobalManager();
+    py::object import(const std::string &module, const std::string &path, py::object& globals);
+    py::object pyMainModule;
 
 signals:
 
