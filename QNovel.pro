@@ -36,3 +36,7 @@ HEADERS  += mainwindow.h \
         historydelegate.h
 
 FORMS    += mainwindow.ui
+
+DISTFILES += \
+    scripts/main.py \
+    scripts/db.py

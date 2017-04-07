@@ -4,6 +4,7 @@
 
 #include <pybind11/pybind11.h>
 #include <pybind11/eval.h>
+#include <pybind11/embedded.h>
 #undef B0
 
 
@@ -21,6 +22,7 @@ class GlobalManager : public QObject
     Q_OBJECT
 public:
     static GlobalManager *instance();
+    void setHistoryListItems(QListWidget *widget);
 
 private:
     static GlobalManager *_instance;

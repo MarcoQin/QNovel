@@ -9,25 +9,39 @@ GlobalManager *GlobalManager::instance()
     return _instance ? _instance : new GlobalManager();
 }
 
+void GlobalManager::setHistoryListItems(QListWidget *widget)
+{
+    pyMainModule.attr("setHistoryListItems")(py::cast(widget));
+}
+
 
 QString makeQString(py::object s) {
     return QString(std::string(py::str(s)).c_str());
 }
 
-PYBIND11_PLUGIN(master) {
-    py::module m("master", "master");
+//PYBIND11_PLUGIN(master) {
+//    py::module m("master", "master");
+//    py::class_<QListWidget>(m, "QListWidget")
+//            .def("insertItem", (void (QListWidget::*)(int, const QString&))&QListWidget::insertItem);
+
+//    py::class_<QString>(m, "QString");
+//    m.def("makeQString", &makeQString);
+//}
+
+PYBIND11_ADD_EMBEDDED_MODULE(master)(py::module &m) {
     py::class_<QListWidget>(m, "QListWidget")
             .def("insertItem", (void (QListWidget::*)(int, const QString&))&QListWidget::insertItem);
 
     py::class_<QString>(m, "QString");
-    m.def("makeQString", &makeQString);
+    m.def("makeQString", &makeQString, "Convert Python string to QString");
 }
+
 
 GlobalManager::GlobalManager()
 {
     try {
         Py_Initialize();
-        pybind11_init();
+//        pybind11_init();
 
         QString scriptPath = QCoreApplication::applicationDirPath() + "/../Resources/scripts/";
         QString bootFile = scriptPath + "main.py";
@@ -36,10 +50,13 @@ GlobalManager::GlobalManager()
         py::object globals = main.attr("__dict__");
         pyMainModule = import("main", bootFile.toStdString(), globals);
 
-        py::object test = pyMainModule.attr("test")();
-        test.attr("p")();
-        py::object r = test.attr("haha")();
-        qDebug() << std::string(py::str(r)).c_str() ;
+        //test call py function from cpp
+//        pyMainModule.attr("func")();
+
+//        py::object test = pyMainModule.attr("test")();
+//        test.attr("p")();
+//        py::object r = test.attr("haha")();
+//        qDebug() << std::string(py::str(r)).c_str() ;
 
     } catch (const py::error_already_set &e) {
         qDebug() << ">>> Error! Uncaught exception! \n";
