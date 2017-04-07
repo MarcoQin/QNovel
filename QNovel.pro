@@ -37,7 +37,8 @@ FORMS    += mainwindow.ui
 
 DISTFILES += \
     scripts/main.py \
-    scripts/db.py
+    scripts/db.py \
+    scripts/peewee.py
 
 QMAKE_POST_LINK += $$quote(mkdir -p $$DESTDIR/QNovel.app/Contents/Resources/scripts/$$escape_expand(\n\t))
 for(FILE,DISTFILES){

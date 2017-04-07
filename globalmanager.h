@@ -11,6 +11,7 @@
 #include <QObject>
 #include <QString>
 #include <QListWidget>
+#include <QLabel>
 
 
 
@@ -23,11 +24,12 @@ class GlobalManager : public QObject
 public:
     static GlobalManager *instance();
     void setHistoryListItems(QListWidget *widget);
+    void setHistoryLabelInfo(const QString &s, QLabel *label);
 
 private:
     static GlobalManager *_instance;
     explicit GlobalManager();
-    py::object import(const std::string &module, const std::string &path, py::object& globals);
+    py::object import(const std::string &module, const std::string &path);
     py::object pyMainModule;
 
 signals:
