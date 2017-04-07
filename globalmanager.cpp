@@ -15,8 +15,6 @@ QString makeQString(py::object s) {
 
 void GlobalManager::setHistoryListItems(QListWidget *widget)
 {
-//    py::object obj = py::cast(static_cast<void *>(widget));
-//    pyMainModule.attr("setHistoryListItems")(py::cast(widget));
     try {
         pyMainModule.attr("setHistoryListItems")(widget);
     } catch (const py::error_already_set &e) {
@@ -56,6 +54,7 @@ GlobalManager::GlobalManager()
 {
     _instance = this;
 
+
     try {
 
         Py_Initialize();
@@ -76,6 +75,21 @@ GlobalManager::GlobalManager()
         qDebug() << ">>> Error! Uncaught exception! \n";
         qDebug() << e.what();
     }
+
+    newFileWindow = new NewFileWindow();
+    mainWindow = new MainWindow();
+}
+
+void GlobalManager::showMainWindow()
+{
+    newFileWindow->hide();
+    mainWindow->show();
+}
+
+void GlobalManager::showNewFileWindow()
+{
+    mainWindow->hide();
+    newFileWindow->show();
 }
 
 py::object GlobalManager::import(const std::string &module, const std::string &path)

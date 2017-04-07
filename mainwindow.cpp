@@ -18,8 +18,11 @@ MainWindow::MainWindow(QWidget *parent) :
         Q_UNUSED(prev)
         GlobalManager::instance()->setHistoryLabelInfo(qvariant_cast<QString>(current->data(0)), ui->infoLabel);
     });
-
     ui->listWidget->setCurrentRow(0);
+
+    connect(ui->newBtn, &QPushButton::clicked, this, [](){
+        GlobalManager::instance()->showNewFileWindow();
+    });
 }
 
 MainWindow::~MainWindow()

@@ -27,13 +27,16 @@ DESTDIR = $$PWD/build
 SOURCES += main.cpp\
         mainwindow.cpp \
         globalmanager.cpp \
-        historydelegate.cpp
+        historydelegate.cpp \
+    newfilewindow.cpp
 
 HEADERS  += mainwindow.h \
         globalmanager.h \
-        historydelegate.h
+        historydelegate.h \
+    newfilewindow.h
 
-FORMS    += mainwindow.ui
+FORMS    += mainwindow.ui \
+    newfilewindow.ui
 
 DISTFILES += \
     scripts/main.py \
